@@ -78,3 +78,16 @@ button{
 #logo{
     height: 15px;
 }
+
+@media(max-width: 390px){
+
+    .calculator-container{
+        min-height: 100vh;
+        margin-top: 0;
+        border-radius: 0;
+    }
+
+    .display-screen{
+        margin-bottom: 50px;
+    }
+}
