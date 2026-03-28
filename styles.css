@@ -25,10 +25,12 @@ body{
     padding: 10px;
     color: white;
     min-height: 20vh;
-    display: flex;
     justify-content: flex-end;
     align-items: end;
     font-size: 40PX;
+    border: 2px solid orange;
+    max-width: 370px;
+    display: flex;
 }
 
 .btn-container{
@@ -52,7 +54,7 @@ button{
 }
 
 .clear-button{
-    color: #E8743F;
+    color: #ff6a25;
 }
 
 .equal-button{
