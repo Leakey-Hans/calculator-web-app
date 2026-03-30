@@ -11,7 +11,16 @@ function multiply(a, b){
 }
 
 function divide(a, b){
-    return a / b;
+    //Dividing by zero might crash my PC
+    if( b === 0){
+        return 'math error'
+    } else {
+        return a / b;
+    }
+}
+
+function percentage(a){
+    return a / 100
 }
 
 let firstNum = "";
@@ -29,14 +38,32 @@ clearBtn.addEventListener("click", () => {
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
     operator.addEventListener('click', (e) => {
-        operation = e.target.value;
-        screen.textContent = `${firstNum}${operation}`;
+    if (firstNum !== "" && secondNum !== "" && operation !== "") {
+        let results = operate(operation, firstNum, secondNum);
+        screen.textContent = results;
+        // carry result forward
+        firstNum = results.toString();
+        secondNum = "";
+    }
+
+    operation = e.target.value;
+    screen.textContent = `${firstNum}${operation}`;
     });
 });
 const equalBtn = document.querySelector(".equal-button")
 equalBtn.addEventListener("click", () => {
-    let results = operate(operation, firstNum, secondNum);
-    screen.textContent = results
+    //This ensures that all variables have data before calculation
+    if (firstNum !== "" && secondNum !== "" && operation !== ""){
+        let results = operate(operation, firstNum, secondNum);
+        screen.textContent = results;
+        //Below ensures that when a digit is pressed after calculation it starts again
+        results = '';
+        firstNum = '';
+        secondNum = '';
+        operation = '';
+    } else {
+        screen.textContent = "syntax error"
+    }
 });
 /*Previously the for each loop was inside the  function updateFirstNum but that
 would result in the loop add eventListener to all the button every time they
@@ -64,7 +91,9 @@ function operate(operator, num1, num2){
         return multiply(Number(num1), Number(num2));
     } else if (operator === "/"){
         return divide(Number(num1), Number(num2));
-    };
+    } else if (operator === "%"){
+        return percentage(Number(num1));
+    }
 }
 
 function updateFirstNum(e){
