@@ -35,6 +35,20 @@ clearBtn.addEventListener("click", () => {
     operation = '';
     secondNum = '';
 });
+//The backspacing 
+const deleteBtn = document.querySelector(".backspace");
+deleteBtn.addEventListener("click", () => {
+    if (secondNum !== "") {
+        secondNum = secondNum.slice(0, -1);
+        screen.textContent = `${firstNum}${operation}${secondNum}`;
+    } else if (operation !== "") {
+        operation = "";
+        screen.textContent = firstNum;
+    } else {
+        firstNum = firstNum.slice(0, -1);
+        screen.textContent = firstNum;
+    }
+});
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
     operator.addEventListener('click', (e) => {
@@ -61,7 +75,11 @@ equalBtn.addEventListener("click", () => {
         firstNum = '';
         secondNum = '';
         operation = '';
-    } else {
+        //special case for the percentage operatpr can work with firstNum only
+    } else if (firstNum !== '' && operation === "%"){
+        let results = operate(operation, firstNum);
+        screen.textContent = results;
+    } else{
         screen.textContent = "syntax error"
     }
 });
@@ -78,31 +96,46 @@ digits.forEach((digit) => {
     });
 });
 
+//Rounding oof not to overlap the display
+function roundResult(num) {
+    return Math.round(num * 100) / 100;
+}
+
 function operate(operator, num1, num2){
 
     /*Figured Out the + sign will concatenate the var so 1 + 1 becomes 11
     rather than two so below we explicitly convert the var values to numbers */
 
     if (operator === "+"){
-        return addition(Number(num1), Number(num2));
+        return roundResult(addition(Number(num1), Number(num2)));
     } else if (operator === "-"){
-        return subtract(Number(num1), Number(num2));
+        return roundResult(subtract(Number(num1), Number(num2)));
     }  else if (operator === "*"){
-        return multiply(Number(num1), Number(num2));
+        return roundResult(multiply(Number(num1), Number(num2)));
     } else if (operator === "/"){
-        return divide(Number(num1), Number(num2));
+        return roundResult(divide(Number(num1), Number(num2)));
     } else if (operator === "%"){
-        return percentage(Number(num1));
+        return roundResult(percentage(Number(num1)));
     }
 }
 
 function updateFirstNum(e){
-    firstNum += e.target.value;
+
+    const value = e.target.value;
+    //Preventing Multiple Decimal places
+    if (value === "." && firstNum.includes(".")) return;
+
+    firstNum += value;
     screen.textContent = firstNum;
 }
 
 function updateSecondName(e){
-    secondNum += e.target.value
+
+    const value = e.target.value;
+    //Preventing Multiple Decimal places
+    if (value === "." && firstNum.includes(".")) return;
+    
+    secondNum += value
     screen.textContent = `${firstNum}${operation}${secondNum}`
 }
 
