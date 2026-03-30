@@ -19,22 +19,25 @@ let operation = '';
 let secondNum = '';
 const screen = document.querySelector(".display-screen");
 const digits = document.querySelectorAll(".digit");
+const clearBtn = document.querySelector(".clear-button");
+clearBtn.addEventListener("click", () => {
+    screen.textContent = '';
+    firstNum = '';
+    operation = '';
+    secondNum = '';
+})
 /*Previously the for each loop was inside the  function updateFirstNum but that
 would result in the loop add eventListener to all the button every time they
-are clicked so we took it outside here plus we dont have to do this updateFirstNUm()*/
+are clicked so I took it outside here plus we dont have to do this updateFirstNUm()*/
 digits.forEach((digit) => {
-    digit.addEventListener("click", () => {
+    digit.addEventListener("click", (e) => {
          if (operation !== ''){
-            updateSecondName();
+            updateSecondName(e);
          } else if (operation === ''){
-            updateFirstNum();
+            updateFirstNum(e);
          };
     });
 });
-const clearBtn = document.querySelector(".clear-button");
-clearBtn.addEventListener("click", () => {
-    screen.textContent = "";
-})
 
 function operate(operator, num1, num2){
     
