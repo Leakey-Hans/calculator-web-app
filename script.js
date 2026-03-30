@@ -14,7 +14,7 @@ function divide(a, b){
     return a / b;
 }
 
-let firstNum = '';
+let firstNum = "";
 let operation = '';
 let secondNum = '';
 const screen = document.querySelector(".display-screen");
@@ -25,7 +25,19 @@ clearBtn.addEventListener("click", () => {
     firstNum = '';
     operation = '';
     secondNum = '';
-})
+});
+const operators = document.querySelectorAll('.operator');
+operators.forEach((operator) => {
+    operator.addEventListener('click', (e) => {
+        operation = e.target.value;
+        screen.textContent = `${firstNum}${operation}`;
+    });
+});
+const equalBtn = document.querySelector(".equal-button")
+equalBtn.addEventListener("click", () => {
+    let results = operate(operation, firstNum, secondNum);
+    screen.textContent = results
+});
 /*Previously the for each loop was inside the  function updateFirstNum but that
 would result in the loop add eventListener to all the button every time they
 are clicked so I took it outside here plus we dont have to do this updateFirstNUm()*/
@@ -40,15 +52,18 @@ digits.forEach((digit) => {
 });
 
 function operate(operator, num1, num2){
-    
+
+    /*Figured Out the + sign will concatenate the var so 1 + 1 becomes 11
+    rather than two so below we explicitly convert the var values to numbers */
+
     if (operator === "+"){
-        return addition(num1, num2);
+        return addition(Number(num1), Number(num2));
     } else if (operator === "-"){
-        return subtract(num1, num2);
+        return subtract(Number(num1), Number(num2));
     }  else if (operator === "*"){
-        return multiply(num1, num2);
+        return multiply(Number(num1), Number(num2));
     } else if (operator === "/"){
-        return divide(num1, num2)
+        return divide(Number(num1), Number(num2));
     };
 }
 
@@ -59,7 +74,7 @@ function updateFirstNum(e){
 
 function updateSecondName(e){
     secondNum += e.target.value
-    screen.textContent = `${firstNum} ${secondNum}`
+    screen.textContent = `${firstNum}${operation}${secondNum}`
 }
 
 
