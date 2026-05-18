@@ -1,3 +1,4 @@
+//Arithmetic functions
 function addition(a, b){
     return a + b;
 }
@@ -52,7 +53,7 @@ deleteBtn.addEventListener("click", () => {
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
     operator.addEventListener('click', (e) => {
-    //Makes sures when another operator is clicked the previous calculation is calculated first
+    //Makes sure when another operator is clicked the previous calculation is calculated first
     if (firstNum !== "" && secondNum !== "" && operation !== "") {
         let results = operate(operation, firstNum, secondNum);
         screen.textContent = results;
