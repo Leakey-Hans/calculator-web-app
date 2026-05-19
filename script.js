@@ -21,7 +21,7 @@ function divide(a, b){
 }
 
 function percentage(a){
-    return a / 100
+    return a / 100;
 }
 
 let firstNum = "";
@@ -60,6 +60,11 @@ operators.forEach((operator) => {
         // carry result forward
         firstNum = results.toString();
         secondNum = "";
+    } else if (firstNum !== '' && operation === '%'){
+        let results = operate(operation, firstNum);
+        screen.textContent = results;
+        firstNum = results.toString();
+        secondNum = "";
     }
 
     operation = e.target.value;
@@ -77,7 +82,7 @@ equalBtn.addEventListener("click", () => {
         firstNum = '';
         secondNum = '';
         operation = '';
-        //special case for the percentage operatpr can work with firstNum only
+        //special case for the percentage operator can work with firstNum only
     } else if (firstNum !== '' && operation === "%"){
         let results = operate(operation, firstNum);
         screen.textContent = results;
@@ -98,7 +103,7 @@ digits.forEach((digit) => {
     });
 });
 
-//Rounding oof not to overlap the display
+//Rounding off not to overlap the display
 function roundResult(num) {
     return Math.round(num * 100) / 100;
 }
